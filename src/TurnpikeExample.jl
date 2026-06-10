@@ -1,4 +1,4 @@
-module CTAppTemplate
+module TurnpikeExample
 
 greet() = print("Hello World!")
 
