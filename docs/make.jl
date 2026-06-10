@@ -35,7 +35,9 @@ makedocs(;
             asset("https://control-toolbox.org/assets/js/documentation.js"),
         ],
     ),
-    pages=["Introduction" => "index.md"],
+    pages=["Introduction" => "index.md",
+           "Direct and indirect methods" => "direct-indirect.md",
+    ],
 )
 
 deploydocs(; repo=repo_url * ".git", devbranch="main")
