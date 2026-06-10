@@ -1,5 +1,17 @@
 ## Optimal control problem
 
+We are interested in the following optimal control problem:
+
+```math
+    \left\{ \begin{array}{ll}
+    \displaystyle \min_{x,u} \frac{1}{2}\int_{0}^{T} \big(x^2(t) + y^2(t)\big) ~\mathrm dt \\[1em]
+    \text{s.c.}~\dot x(t) = u(t), & t\in [t_0, t_f]~\mathrm{a.e.}, \\[0.5em]
+    \phantom{\mathrm{s.c.}~}\dot y(t) = u(t) - \frac{y(t)}{2}, & t\in [t_0, t_f]~\mathrm{a.e.}, \\[0.5em]
+    \phantom{\mathrm{s.c.}~} u(t) \in [-1,1], & t\in [t_0, t_f], \\[0.5em]
+    \phantom{\mathrm{s.c.}~} \big(x(0), y(0)\big) = (1, -0.5), \quad \big(x(T), y(T)\big) = (0.5, 0.5),
+    \end{array} \right.
+```
+
 ```@example main 
 using Plots                                 # For plotting and visualization
 using OptimalControl                        # Main package for optimal control problems
