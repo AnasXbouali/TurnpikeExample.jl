@@ -1,6 +1,6 @@
-# CTAppTemplate
+# TurnpikeExample
 
-Documentation for [CTAppTemplate](https://github.com/control-toolbox/CTAppTemplate.jl).
+Documentation for [TurnpikeExample](https://github.com/remydutto/TurnpikeExample.jl).
 
 ## Reproducibility
 
