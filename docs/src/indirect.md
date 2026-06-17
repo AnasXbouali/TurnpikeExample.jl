@@ -1,27 +1,26 @@
-## Optimal control problem
 
-We are interested in the following optimal control problem:
+# Problem definition
+
+Recall that the optimal control problem we are considering is:
 
 ```math
     \left\{ \begin{array}{ll}
-    \displaystyle \min_{x,u} \frac{1}{2}\int_{0}^{T} \big(x^2(t) + y^2(t)\big) ~\mathrm dt \\[1em]
+    \displaystyle \min_{x,u} J(x,y,u) \coloneqq \frac{1}{2}\int_{0}^{T} \big(x^2(t) + y^2(t)\big) ~\mathrm dt \\[1em]
     \text{s.c.}~\dot x(t) = u(t), & t\in [t_0, t_f]~\mathrm{a.e.}, \\[0.5em]
     \displaystyle \phantom{\mathrm{s.c.}~}\dot y(t) = u(t) - \frac{y(t)}{2}, & t\in [t_0, t_f]~\mathrm{a.e.}, \\[0.5em]
     \phantom{\mathrm{s.c.}~} -M \leq u(t) \leq M, & t\in [t_0, t_f], \\[0.5em]
     \phantom{\mathrm{s.c.}~} \big(x(0), y(0)\big) = (1, -0.5), \quad \big(x(T), y(T)\big) = (0.5, 0.5),
     \end{array} \right.
 ```
+with ``M>0`` and ``T>0``. 
 
-```@example main 
-using Plots                                 # For plotting and visualization
-using OptimalControl                        # Main package for optimal control problems
-using NLPModelsIpopt                        # Interface for Ipopt nonlinear solver
-using OrdinaryDiffEq                        # For solving differential equations
-using MINPACK                               # For nonlinear equation solving (shooting method)
-using DifferentiationInterface              # For automatic differentiation
-using ForwardDiff                           # Forward mode automatic differentiation
-using Ipopt, Optimization, OptimizationMOI  # Additional optimization tools
+This optimal control problem is associated to the stationnary optimization problem 
+
+```math
+    \min{(x,y,u)} \big \{  x^2 + y^2 \mid (x,y,u) \in \mathbb R \times \mathbb R \times [-M, M], u = u - \frac{y}{2} = 0 \big\}.
 ```
+The static solution is thus given by ``(x^\star, y^\star, u^\star) = (0, 0, 0)``. This solution corresponds to the static equilibrium ``(x,y,u)`` which minimizes the cost J(x,y,u) under the control constraint ``|u|\leq M``. Our goal is to numerically show that this problem has the `turnpike`property, i.e. if the final time ``T`` is large enough, the optimal trajectory has the following form : starting from the initial state ``(x(0), y(0)) = (1, -0.5), ``, the trajectory try to reach as fast as possible the static equilibrium ``(x^\star, y^\star, u^\star) = (0, 0, 0)`` and to stay close to it until it has to leave it to reach the final state ``(x(T), y(T)) = (1/2, 1/2)``.
+
 
 ```@example main
 T = 50.

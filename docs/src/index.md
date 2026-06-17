@@ -1,6 +1,27 @@
-# TurnpikeExample
+# Introduction
 
-Documentation for [TurnpikeExample](https://github.com/remydutto/TurnpikeExample.jl).
+We consider a two dimensional optimal control problem in Lagrange form with an affine control system with respect to the (scalar) control. The control problem consists in minimizing the cost functional
+
+```math
+\frac{1}{2}\int_{0}^{T} \big(x^2(t) + y^2(t)\big) ~\mathrm dt \to \min,
+```
+considering that the evolution of the state ``(x,y) \in \mathbb R^2`` is governed by the control system
+
+```math
+\displaystyle \dot{x}(t) = u(t), \quad \dot{y}(t) = -u(t) - \frac{y(t)}{2}, \quad |u(t)| \leq M,
+```
+
+fixing the initial condition to
+
+```math
+\big( x(0), y(0) \big) = (1, -1/2)
+```
+
+and considering that the system has to reach the final condition given by
+
+```math
+\big( x(T), y(T) \big) = (1/2, 1/2).
+```
 
 ## Reproducibility
 
