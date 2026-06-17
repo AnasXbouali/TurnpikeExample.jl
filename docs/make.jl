@@ -36,7 +36,8 @@ makedocs(;
         ],
     ),
     pages=["Introduction" => "index.md",
-           "Direct and indirect methods" => "direct-indirect.md",
+           "Direct method" => "direct.md",
+           "Indirect method & turnpike property" => "indirect.md",
     ],
 )
 
