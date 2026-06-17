@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Indirect method &amp; turnpike property · TurnpikeExample</title><meta name="title" content="Indirect method &amp; turnpike property · TurnpikeExample"/><meta property="og:title" content="Indirect method &amp; turnpike property · TurnpikeExample"/><meta property="twitter:title" content="Indirect method &amp; turnpike property · TurnpikeExample"/><meta name="description" content="Documentation for TurnpikeExample."/><meta property="og:description" content="Documentation for TurnpikeExample."/><meta property="twitter:description" content="Documentation for TurnpikeExample."/><script data-outdated-warner src="assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="assets/documenter.js"></script><script src="search_index.js"></script><script src="siteinfo.js"></script><script src="../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/catppuccin-mocha.css" data-theme-name="catppuccin-mocha"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/catppuccin-macchiato.css" data-theme-name="catppuccin-macchiato"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/catppuccin-frappe.css" data-theme-name="catppuccin-frappe"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/catppuccin-latte.css" data-theme-name="catppuccin-latte"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="assets/themeswap.js"></script><link href="https://control-toolbox.org/assets/css/documentation.css" rel="stylesheet" type="text/css"/><script src="https://control-toolbox.org/assets/js/documentation.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href="index.html">TurnpikeExample</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li><a class="tocitem" href="index.html">Introduction</a></li><li><a class="tocitem" href="direct.html">Direct method</a></li><li class="is-active"><a class="tocitem" href="indirect.html">Indirect method &amp; turnpike property</a><ul class="internal"><li><a class="tocitem" href="#Optimal-control-problem"><span>Optimal control problem</span></a></li><li><a class="tocitem" href="#Direct-method"><span>Direct method</span></a></li><li><a class="tocitem" href="#Hamiltonians,-flows-and-singular-control"><span>Hamiltonians, flows and singular control</span></a></li><li><a class="tocitem" href="#Indirect-method"><span>Indirect method</span></a></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href="indirect.html">Indirect method &amp; turnpike property</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href="indirect.html">Indirect method &amp; turnpike property</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/remydutto/TurnpikeExample.jl" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h2 id="Optimal-control-problem"><a class="docs-heading-anchor" href="#Optimal-control-problem">Optimal control problem</a><a id="Optimal-control-problem-1"></a><a class="docs-heading-anchor-permalink" href="#Optimal-control-problem" title="Permalink"></a></h2><p>We are interested in the following optimal control problem:</p><p class="math-container">\[    \left\{ \begin{array}{ll}
+    \displaystyle \min_{x,u} \frac{1}{2}\int_{0}^{T} \big(x^2(t) + y^2(t)\big) ~\mathrm dt \\[1em]
+    \text{s.c.}~\dot x(t) = u(t), &amp; t\in [t_0, t_f]~\mathrm{a.e.}, \\[0.5em]
+    \displaystyle \phantom{\mathrm{s.c.}~}\dot y(t) = u(t) - \frac{y(t)}{2}, &amp; t\in [t_0, t_f]~\mathrm{a.e.}, \\[0.5em]
+    \phantom{\mathrm{s.c.}~} -M \leq u(t) \leq M, &amp; t\in [t_0, t_f], \\[0.5em]
+    \phantom{\mathrm{s.c.}~} \big(x(0), y(0)\big) = (1, -0.5), \quad \big(x(T), y(T)\big) = (0.5, 0.5),
+    \end{array} \right.\]</p><pre><code class="language-julia hljs">using Plots                                 # For plotting and visualization
+using OptimalControl                        # Main package for optimal control problems
+using NLPModelsIpopt                        # Interface for Ipopt nonlinear solver
+using OrdinaryDiffEq                        # For solving differential equations
+using MINPACK                               # For nonlinear equation solving (shooting method)
+using DifferentiationInterface              # For automatic differentiation
+using ForwardDiff                           # Forward mode automatic differentiation
+using Ipopt, Optimization, OptimizationMOI  # Additional optimization tools</code></pre><pre><code class="language-julia hljs">T = 50.
+M = 1.
+s0 = [0., 1, -0.5]
+xT = 0.5; yT = 0.5
+
+F0(s) = [
+    0.5*(s[2]^2 + s[3]^2);
+    0;
+    -s[3]/2
+]
+
+F1(s) = [
+    0;
+    1;
+    -1
+]
+
+# Define the optimal control problem using OptimalControl.jl DSL
+ocp = @def begin
+    t ∈ [0, T], time                                # Time
+    s = (c, x, y) ∈ R³, state                       # State
+    u ∈ R, control                                  # Control
+    -M ≤ u(t) ≤ M                                   # Control&#39;s constraint
+    s(0) == s0                                      # Initial state
+    x(T) == xT                                      # Final state
+    y(T) == yT                                      # Final state
+    ṡ(t) == F0(s(t)) + u(t)*F1(s(t))                # Dynamics
+    c(T) → min                                      # Cost
+end</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi"><span class="sgr1">Abstract definition:
+
+</span>    t ∈ [0, T], time
+    s = ((c, x, y) ∈ R³, state)
+    u ∈ R, control
+    -M ≤ u(t) ≤ M
+    s(0) == s0
+    x(T) == xT
+    y(T) == yT
+    ṡ(t) == F0(s(t)) + u(t) * F1(s(t))
+    c(T) → min
+
+<span class="sgr1">The (autonomous) optimal control problem is of the form:
+</span>
+<span class="sgr34">    minimize  </span>J(s, u) = g(s(0), s(50.0))
+
+<span class="sgr34">    subject to
+</span>
+        ṡ(t) = f(s(t), u(t)), t in [0, 50.0] a.e.,
+
+        ϕ₋ ≤ ϕ(s(0), s(50.0)) ≤ ϕ₊, 
+        u₋ ≤ u(t) ≤ u₊, 
+
+    where s(t) = (c(t), x(t), y(t)) ∈ R³ and u(t) ∈ R.
+</code></pre><h2 id="Direct-method"><a class="docs-heading-anchor" href="#Direct-method">Direct method</a><a id="Direct-method-1"></a><a class="docs-heading-anchor-permalink" href="#Direct-method" title="Permalink"></a></h2><pre><code class="language-julia hljs"># Solve the optimal control problem using direct method (collocation)
+direct_sol = solve(ocp)
+# Plot the solution trajectory showing states, controls, and costates over time
+plt_sol = plot(direct_sol, label = &quot;direct&quot;, size = (800, 800))</code></pre><img src="indirect-9c10334e.svg" alt="Example block output"/><h2 id="Hamiltonians,-flows-and-singular-control"><a class="docs-heading-anchor" href="#Hamiltonians,-flows-and-singular-control">Hamiltonians, flows and singular control</a><a id="Hamiltonians,-flows-and-singular-control-1"></a><a class="docs-heading-anchor-permalink" href="#Hamiltonians,-flows-and-singular-control" title="Permalink"></a></h2><pre><code class="language-julia hljs"># Lift into (x,λ) space
+H0 = Lift(F0)
+H1 = Lift(F1)
+
+# Lie bracket
+H01  = @Lie {H0, H1}
+H001 = @Lie {H0, H01}
+H101 = @Lie {H1, H01}
+
+# Singular control
+us(s, p) = -H001(s, p) / H101(s, p)
+
+# Pseudo-Hamiltonian
+H(s,p,u) = H0(s,p) + u*H1(s,p)
+
+# Flows
+ϕ0 = Flow(ocp, (s,p) -&gt; -1)
+ϕ1 = Flow(ocp, (s,p) -&gt; +1)
+ϕs = Flow(ocp, (s,p) -&gt; us(s,p))
+
+# Get direct trajectory
+time = time_grid(direct_sol)
+s = state(direct_sol)
+u = control(direct_sol)
+p = costate(direct_sol)
+
+# Structure of the solution
+plt = plot(size = (800, 500))
+plot!(plt, t -&gt; H0(s(t), p(t)), 0, T, label = &quot;H₀(s(t), p(t))&quot;)
+plot!(plt, t -&gt; H1(s(t), p(t)), 0, T, label = &quot;H₁(s(t), p(t))&quot;)
+plot!(plt, t -&gt; H01(s(t), p(t)), 0, T, label = &quot;H₀₁(s(t), p(t))&quot;)
+plot!(plt, [0, T], [0, 0], c = :black, ls = :dash, label = nothing)</code></pre><img src="indirect-db77d3cb.svg" alt="Example block output"/><h2 id="Indirect-method"><a class="docs-heading-anchor" href="#Indirect-method">Indirect method</a><a id="Indirect-method-1"></a><a class="docs-heading-anchor-permalink" href="#Indirect-method" title="Permalink"></a></h2><pre><code class="language-julia hljs"># Shooting function
+function shoot!(S, ξ)
+    px, py, t1, t2 = ξ
+    s1, p1 = ϕ0(0, s0, [-1, px, py], t1)
+    s2, p2 = ϕs(t1, s1, p1, t2)
+    sf, pf = ϕ0(t2, s2, p2, T)
+
+    S[1] = sf[2] - xT
+    S[2] = sf[3] - yT
+    S[3] = H1(s1, p1)
+    S[4] = H01(s1, p1)
+end
+
+# Jacobian of the shooting function
+jshoot! = (js, ξ) -&gt; jacobian!(shoot!, similar(ξ), js, AutoForwardDiff(), ξ)
+
+# Initial guess
+p0 = p(0)
+η = 1e-3
+time_ = time[ u.(time) .≥ -1+η ]
+t1 = time_[1]; t2 = time_[end]
+ξ = [p0[2:3]..., t1, t2]
+
+# Resolution of S(ξ) = 0
+indirect_sol = fsolve(shoot!, jshoot!, ξ)
+
+# Plot
+px0, py0, t1, t2 = indirect_sol.x
+p0 = [-1, px0, py0]
+ϕ = ϕ0 * (t1, ϕs) * (t2, ϕ0)
+flow_sol = ϕ((0, T), s0, p0; saveat=range(0, T, 1000))
+plot!(plt_sol, flow_sol, label=&quot;indirect&quot;)</code></pre><img src="indirect-a7b41955.svg" alt="Example block output"/></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="direct.html">« Direct method</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.17.0 on <span class="colophon-date" title="Wednesday 17 June 2026 08:22">Wednesday 17 June 2026</span>. Using Julia version 1.12.6.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
