@@ -17,9 +17,9 @@ with ``M>0`` and ``T>0``.
 This optimal control problem is associated to the stationnary optimization problem 
 
 ```math
-    \min{(x,y,u)} \big \{  x^2 + y^2 \mid (x,y,u) \in \mathbb R \times \mathbb R \times [-M, M], u = u - \frac{y}{2} = 0 \big\}.
+    \min_{(x,y,u)} \big \{  x^2 + y^2 \mid (x,y,u) \in \mathbb R \times \mathbb R \times [-M, M], - u = u - \frac{y}{2} = 0 \big\}.
 ```
-The static solution is thus given by ``(x^\star, y^\star, u^\star) = (0, 0, 0)``. This solution corresponds to the static equilibrium ``(x,y,u)`` which minimizes the cost ``J(x,y,u)`` under the control constraint ``|u|\leq M``. Our goal is to numerically show that this problem has the `turnpike` property, i.e. if the final time ``T`` is large enough, the optimal trajectory has the following form : starting from the initial state ``(x(0), y(0)) = (1, -0.5)``, the trajectory try to reach as fast as possible the static equilibrium ``(x^\star, y^\star, u^\star) = (0, 0, 0)`` and to stay close to it until it has to leave it to reach the final state ``(x(T), y(T)) = (1/2, 1/2)``.
+The static solution is thus given by ``(x^\star, y^\star, u^\star) = (0, 0, 0)``. This solution corresponds to the static equilibrium ``(x,y,u)`` which minimizes the cost ``J(x,y,u)`` under the control constraint ``|u|\leq M``. Our goal is to numerically show that this problem has the `turnpike` property, i.e. if the final time ``T`` is large enough, the optimal trajectory has the following form : starting from the initial state ``(x(0), y(0)) = (1, -0.5)``, the trajectory try to reach as fast as possible the static equilibrium ``(x^\star, y^\star, u^\star) = (0, 0, 0)`` and to stay close to it until it has to leave it to reach the final state ``(x(T), y(T)) = (0.5, 0.5)``.
 
 
 !!! info "Main goals"
@@ -90,22 +90,24 @@ Since the state dynamic is linear with respect to the control
 where 
 
 ```math
-F_0(s) = \begin{pmatrix} \frac{1}{2}(x^2 + y^2) \\ 0 \\ -\frac{y}{2} \end{pmatrix}, \quad F_1(s) = \begin{pmatrix} 0 \\ 1 \\ -1 \end{pmatrix},
+F_0(s) = \begin{pmatrix} \frac{1}{2}(x^2 + y^2) \\ 0 \\ -\frac{y}{2} \end{pmatrix} 
+\quad \text{and} \quad
+F_1(s) = \begin{pmatrix} 0 \\ 1 \\ -1 \end{pmatrix},
 ```
 
 the pseudo-Hamiltonian is linear with respect to the control and can be written as 
 
 ```math
-H(s, p, u) = H_0(s, p) + u H_1(s, p) 
+H(s, p, u) = H_0(s, p) + u \, H_1(s, p) 
 ```
 
 where 
 
 ```math
-H_0(s, p) = p \cdot F_0(s) \quad \text{and} \quad H_1(s, p) = p \cdot F_1(s).
+H_0(s, p) = \langle p \mid F_0(s) \rangle \quad \text{and} \quad H_1(s, p) = \langle p \mid F_1(s) \rangle.
 ```
 
-Thanks to the differential geometry tools provided by `OptimalControl.jl` decribed in the [documentation](https://control-toolbox.org/OptimalControl.jl/stable/manual-differential-geometry.html), the two Hamitonians ``H_0`` and ``H_1`` can be directly defined as the lift of the vector fields ``F0`` and ``F1``. 
+Thanks to the differential geometry tools provided by `OptimalControl.jl` decribed in the [documentation](https://control-toolbox.org/OptimalControl.jl/stable/manual-differential-geometry.html), the two Hamitonians ``H_0`` and ``H_1`` can be directly defined as the lift of the vector fields ``F_0`` and ``F_1``. 
 
 ```@example main
 # Lift into (x,λ) space
@@ -118,7 +120,7 @@ H(s,p,u) = H0(s,p) + u*H1(s,p)
 nothing; #hide
 ```
 
-Thanks to the maximization condition provided by the Pontryagin maximum principle, the optimal control has to maximize the pseudo-Hamiltonian
+Thanks to the maximization condition provided by the Pontryagin maximum principle, the optimal control has to maximize the pseudo-Hamiltonian for almost all ``t \in [0, T]``.
 
 ```math
 u(t) \in \arg\max_{w \in [-M, M]} H_0(s(t), p(t)) + w H_1(s(t), p(t)). 
@@ -127,13 +129,13 @@ The optimal control is therefore given for almost all ``t \in [0, T]`` by
 
 ```math
 u(t) \begin{cases}
-    = M & \text{if } H_1(s(t), p(t)) > 0 \\
-    = -M & \text{if } H_1(s(t), p(t)) < 0 \\
-    \in [-M, M] & \text{if } H_1(s(t), p(t)) = 0
+    = M & \text{if }\phi(t) > 0 \\
+    = -M & \text{if }\phi(t) < 0 \\
+    \in [-M, M] & \text{if }\phi(t) = 0
 \end{cases}
 ```
 
-A singular arc corresponds to a time interval where ``\phi(t) = H_1(s(t), p(t)) = 0``. During singular arc, one has 
+where ``\phi(t) = H_1(s(t), p(t))`` is the commutation function. A singular arc corresponds to a time interval where ``\phi(t) = 0``. During singular arc, one has 
 
 ```math 
 \dot \phi(t) =  \{ H_0, H_1 \}(s(t), p(t)) \coloneqq H_{01}(s(t), p(t)) = 0
@@ -142,15 +144,18 @@ A singular arc corresponds to a time interval where ``\phi(t) = H_1(s(t), p(t)) 
 and 
 
 ```math
-\ddot \phi(t) = \{H_0, H_{01} \}(s(t), p(t)) + u(t) \{H_1, H_{01} \}(s(t), p(t)) \coloneqq H_{001}(s(t), p(t)) + u(t) H_{101}(s(t), p(t)) = 0,  
+\begin{align*}
+\ddot \phi(t) &= \{H_0, H_{01} \}(s(t), p(t)) + u(t) \{H_1, H_{01} \}(s(t), p(t)) \\
+&= H_{001}(s(t), p(t)) + u(t) H_{101}(s(t), p(t)) = 0,
+\end{align*}
 ```
 
 where ``\{F, G\}(s, p) = \langle \nabla_s F(s, p), \nabla_p G(s, p) \rangle - \langle \nabla_p F(s, p), \nabla_s G(s, p) \rangle`` denoted the [Poisson bracket](https://en.wikipedia.org/wiki/Poisson_bracket) of the two Hamiltonians ``H_0`` and ``H_1``. Please refer to [this tutorial](https://control-toolbox.org/Tutorials.jl/stable/tutorial-goddard.html) for more details about the Poisson bracket and its origin.
 
-Considering that we have a singular arc of the first order (i.e. ``H_{101}(s(t), p(t))`` during singular arcs), the singular control is given by 
+Considering that we have a singular arc of the first order (i.e. ``H_{101}(s(t), p(t)) \not = 0`` during singular arcs), the singular control is given by 
 
 ```math
-u(t) = u_s(s(t), p(t)) = -\frac{H_{001}(s(t), p(t))}{H_{101}(s(t), p(t))}
+u(t) = u_s(s(t), p(t)) = -\frac{H_{001}(s(t), p(t))}{H_{101}(s(t), p(t))}\cdot
 ```
 
 Again, thanks to the differential geometry tools provided by `OptimalControl.jl` decribed in the [documentation](https://control-toolbox.org/OptimalControl.jl/stable/manual-differential-geometry.html), one can use the `@Lie` macro to compute the Poisson brackets and define the singular control.
@@ -179,7 +184,7 @@ u(t) =
     \end{cases}
 ```
 
-with ``0 < t_1 < t_2 < T``. We say that the control is `Bang-Singular-Bang`, and one suppose that the solution has this structure for all ``T`` large enough. Morevoer, one suppose that the solution are normal (i.e. ``p_c < 0``), and we fix ``p_c = -1`` in the following.
+with ``0 < t_1 < t_2 < T``. We say that the control is `Bang-Singular-Bang`, and one suppose that the solution has this structure for all ``T>0`` large enough. Morevoer, one suppose that the solution are normal (i.e. ``p_c < 0``), and we fix ``p_c = -1`` in the following.
 Thanks to the boundary conditions given by the problem and by the transversality conditions of the Pontryagin maximum principle, we can define the shooting function associated to the optimal structure we have determined. This shooting function has 4 components, corresponding to the 4 unknowns ``p_x(0)``, ``p_y(0)``, ``t_1`` and ``t_2``, and the four following equations:
 
 ```math
