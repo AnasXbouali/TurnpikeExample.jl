@@ -10,7 +10,7 @@ J(x,y,u)
 \dot x(t) = u(t),
 \\[0.5em]
 
-\displaystyle \dot y(t) = u(t) - \frac{y(t)}{2},
+\displaystyle \dot y(t) =- u(t) - \frac{y(t)}{2},
 \\[0.5em]
 
 -M \leq u(t) \leq M,
@@ -152,7 +152,7 @@ Number of inequality constraint evaluations          = 0
 Number of equality constraint Jacobian evaluations   = 13
 Number of inequality constraint Jacobian evaluations = 0
 Number of Lagrangian Hessian evaluations             = 12
-Total seconds in IPOPT                               = 6.228
+Total seconds in IPOPT                               = 6.734
 
 EXIT: Optimal Solution Found.</code></pre><pre><code class="language-julia hljs">plt_direct = plot(
     direct_sol;
@@ -160,7 +160,7 @@ EXIT: Optimal Solution Found.</code></pre><pre><code class="language-julia hljs"
     size = (800, 800),
 )
 
-plt_direct</code></pre><img src="direct-7c0ce743.svg" alt="Example block output"/><div class="admonition is-warning" id="Control-chattering-9376fd4b0cd28200"><header class="admonition-header">Control chattering<a class="admonition-anchor" href="#Control-chattering-9376fd4b0cd28200" title="Permalink"></a></header><div class="admonition-body"><p>The control exhibits <strong>chattering</strong>: it switches infinitely fast between its bounds on a set of positive measure. This is consistent with a singular arc structure, where the Pontryagin maximum principle fails to determine the optimal control uniquely from the sign of the switching function.</p></div></div><h2 id="Integration-schemes-and-continuation"><a class="docs-heading-anchor" href="#Integration-schemes-and-continuation">Integration schemes and continuation</a><a id="Integration-schemes-and-continuation-1"></a><a class="docs-heading-anchor-permalink" href="#Integration-schemes-and-continuation" title="Permalink"></a></h2><p>Direct methods rely on a discretization of the dynamics on a time grid</p><p class="math-container">\[t_0 &lt; t_1 &lt; \cdots &lt; t_N.\]</p><p>Several integration schemes are available.</p><table><tr><th style="text-align: left">Symbol</th><th style="text-align: left">Method</th><th style="text-align: center">Order</th></tr><tr><td style="text-align: left"><code>:euler</code></td><td style="text-align: left">Explicit Euler</td><td style="text-align: center">1</td></tr><tr><td style="text-align: left"><code>:trapeze</code></td><td style="text-align: left">Trapezoidal rule</td><td style="text-align: center">2</td></tr><tr><td style="text-align: left"><code>:midpoint</code></td><td style="text-align: left">Implicit midpoint</td><td style="text-align: center">2</td></tr><tr><td style="text-align: left"><code>:gauss_legendre_2</code></td><td style="text-align: left">Gauss–Legendre, 2 stages</td><td style="text-align: center">4</td></tr><tr><td style="text-align: left"><code>:gauss_legendre_3</code></td><td style="text-align: left">Gauss–Legendre, 3 stages</td><td style="text-align: center">6</td></tr></table><p>A useful numerical strategy is continuation. One solves a sequence of increasingly accurate problems, using each solution as a warm start for the next one:</p><p class="math-container">\[(N_1,\varepsilon_1)
+plt_direct</code></pre><img src="direct-6350c657.svg" alt="Example block output"/><div class="admonition is-warning" id="Control-chattering-9376fd4b0cd28200"><header class="admonition-header">Control chattering<a class="admonition-anchor" href="#Control-chattering-9376fd4b0cd28200" title="Permalink"></a></header><div class="admonition-body"><p>The control exhibits <strong>chattering</strong>: it switches infinitely fast between its bounds on a set of positive measure. This is consistent with a singular arc structure, where the Pontryagin maximum principle fails to determine the optimal control uniquely from the sign of the switching function.</p></div></div><h2 id="Integration-schemes-and-continuation"><a class="docs-heading-anchor" href="#Integration-schemes-and-continuation">Integration schemes and continuation</a><a id="Integration-schemes-and-continuation-1"></a><a class="docs-heading-anchor-permalink" href="#Integration-schemes-and-continuation" title="Permalink"></a></h2><p>Direct methods rely on a discretization of the dynamics on a time grid</p><p class="math-container">\[t_0 &lt; t_1 &lt; \cdots &lt; t_N.\]</p><p>Several integration schemes are available.</p><table><tr><th style="text-align: left">Symbol</th><th style="text-align: left">Method</th><th style="text-align: center">Order</th></tr><tr><td style="text-align: left"><code>:euler</code></td><td style="text-align: left">Explicit Euler</td><td style="text-align: center">1</td></tr><tr><td style="text-align: left"><code>:trapeze</code></td><td style="text-align: left">Trapezoidal rule</td><td style="text-align: center">2</td></tr><tr><td style="text-align: left"><code>:midpoint</code></td><td style="text-align: left">Implicit midpoint</td><td style="text-align: center">2</td></tr><tr><td style="text-align: left"><code>:gauss_legendre_2</code></td><td style="text-align: left">Gauss–Legendre, 2 stages</td><td style="text-align: center">4</td></tr><tr><td style="text-align: left"><code>:gauss_legendre_3</code></td><td style="text-align: left">Gauss–Legendre, 3 stages</td><td style="text-align: center">6</td></tr></table><p>A useful numerical strategy is continuation. One solves a sequence of increasingly accurate problems, using each solution as a warm start for the next one:</p><p class="math-container">\[(N_1,\varepsilon_1)
 \longrightarrow
 (N_2,\varepsilon_2)
 \longrightarrow
@@ -247,7 +247,7 @@ Number of inequality constraint evaluations          = 0
 Number of equality constraint Jacobian evaluations   = 10
 Number of inequality constraint Jacobian evaluations = 0
 Number of Lagrangian Hessian evaluations             = 9
-Total seconds in IPOPT                               = 2.571
+Total seconds in IPOPT                               = 2.744
 
 EXIT: Optimal Solution Found.
 ▫ This is OptimalControl 2.0.4, solving with: <span class="sgr36"><span class="sgr1">collocation</span></span> → <span class="sgr36"><span class="sgr1">adnlp</span></span> → <span class="sgr36"><span class="sgr1">ipopt</span></span> (<span class="sgr35"><span class="sgr1">cpu</span></span>)
@@ -308,7 +308,7 @@ Number of inequality constraint evaluations          = 0
 Number of equality constraint Jacobian evaluations   = 14
 Number of inequality constraint Jacobian evaluations = 0
 Number of Lagrangian Hessian evaluations             = 13
-Total seconds in IPOPT                               = 0.023
+Total seconds in IPOPT                               = 0.025
 
 EXIT: Optimal Solution Found.
 ▫ This is OptimalControl 2.0.4, solving with: <span class="sgr36"><span class="sgr1">collocation</span></span> → <span class="sgr36"><span class="sgr1">adnlp</span></span> → <span class="sgr36"><span class="sgr1">ipopt</span></span> (<span class="sgr35"><span class="sgr1">cpu</span></span>)
@@ -368,7 +368,7 @@ Number of inequality constraint evaluations          = 0
 Number of equality constraint Jacobian evaluations   = 13
 Number of inequality constraint Jacobian evaluations = 0
 Number of Lagrangian Hessian evaluations             = 12
-Total seconds in IPOPT                               = 3.996
+Total seconds in IPOPT                               = 4.215
 
 EXIT: Optimal Solution Found.</code></pre><pre><code class="language-julia hljs">plt_gauss2 = plot(
     sol_gauss2;
@@ -376,7 +376,7 @@ EXIT: Optimal Solution Found.</code></pre><pre><code class="language-julia hljs"
     size = (800, 800),
 )
 
-plt_gauss2</code></pre><img src="direct-35889a42.svg" alt="Example block output"/><h2 id="Comparison-of-the-controls"><a class="docs-heading-anchor" href="#Comparison-of-the-controls">Comparison of the controls</a><a id="Comparison-of-the-controls-1"></a><a class="docs-heading-anchor-permalink" href="#Comparison-of-the-controls" title="Permalink"></a></h2><p>We compare the controls obtained with the different schemes on the initial time interval.</p><pre><code class="language-julia hljs">u_trapeze(t) = control(sol_trapeze)(t)
+plt_gauss2</code></pre><img src="direct-bd1fb8cc.svg" alt="Example block output"/><h2 id="Comparison-of-the-controls"><a class="docs-heading-anchor" href="#Comparison-of-the-controls">Comparison of the controls</a><a id="Comparison-of-the-controls-1"></a><a class="docs-heading-anchor-permalink" href="#Comparison-of-the-controls" title="Permalink"></a></h2><p>We compare the controls obtained with the different schemes on the initial time interval.</p><pre><code class="language-julia hljs">u_trapeze(t) = control(sol_trapeze)(t)
 u_midpoint(t) = control(sol_midpoint)(t)
 u_gauss2(t) = control(sol_gauss2)(t)
 
@@ -411,7 +411,7 @@ plot!(
     linewidth = 2,
 )
 
-plt_controls</code></pre><img src="direct-c4cd9afe.svg" alt="Example block output"/><h2 id="Continuation-example"><a class="docs-heading-anchor" href="#Continuation-example">Continuation example</a><a id="Continuation-example-1"></a><a class="docs-heading-anchor-permalink" href="#Continuation-example" title="Permalink"></a></h2><p>We can also explicitly perform a continuation procedure by first solving a coarse problem and then refining the discretization.</p><pre><code class="language-julia hljs">sol_continuation = solve(
+plt_controls</code></pre><img src="direct-9745bc45.svg" alt="Example block output"/><h2 id="Continuation-example"><a class="docs-heading-anchor" href="#Continuation-example">Continuation example</a><a id="Continuation-example-1"></a><a class="docs-heading-anchor-permalink" href="#Continuation-example" title="Permalink"></a></h2><p>We can also explicitly perform a continuation procedure by first solving a coarse problem and then refining the discretization.</p><pre><code class="language-julia hljs">sol_continuation = solve(
     ocp;
     grid_size = 50,
     scheme = :midpoint,
@@ -477,7 +477,7 @@ Number of inequality constraint evaluations          = 0
 Number of equality constraint Jacobian evaluations   = 8
 Number of inequality constraint Jacobian evaluations = 0
 Number of Lagrangian Hessian evaluations             = 7
-Total seconds in IPOPT                               = 0.006
+Total seconds in IPOPT                               = 0.007
 
 EXIT: Optimal Solution Found.
 ▫ This is OptimalControl 2.0.4, solving with: <span class="sgr36"><span class="sgr1">collocation</span></span> → <span class="sgr36"><span class="sgr1">adnlp</span></span> → <span class="sgr36"><span class="sgr1">ipopt</span></span> (<span class="sgr35"><span class="sgr1">cpu</span></span>)
@@ -537,7 +537,7 @@ Number of inequality constraint evaluations          = 0
 Number of equality constraint Jacobian evaluations   = 13
 Number of inequality constraint Jacobian evaluations = 0
 Number of Lagrangian Hessian evaluations             = 12
-Total seconds in IPOPT                               = 0.061
+Total seconds in IPOPT                               = 0.073
 
 EXIT: Optimal Solution Found.</code></pre><pre><code class="language-julia hljs">plt_continuation = plot(
     sol_continuation;
@@ -545,7 +545,7 @@ EXIT: Optimal Solution Found.</code></pre><pre><code class="language-julia hljs"
     size = (800, 800),
 )
 
-plt_continuation</code></pre><img src="direct-e29f1c82.svg" alt="Example block output"/><h2 id="Reducing-control-chattering"><a class="docs-heading-anchor" href="#Reducing-control-chattering">Reducing control chattering</a><a id="Reducing-control-chattering-1"></a><a class="docs-heading-anchor-permalink" href="#Reducing-control-chattering" title="Permalink"></a></h2><p>When the optimal control is bang-bang or involves a singular arc, direct methods inevitably produce rapid oscillations at the grid scale — the discretized control switches between its bounds to approximate an infinite switching frequency it cannot resolve.</p><p>A standard remedy is to add a small quadratic regularization term to the cost:</p><p>$</p><p>J<em>\varepsilon(x,y,u) = \frac{1}{2}\int</em>0^T \left(x^2(t)+y^2(t)\right)\mathrm{d}t</p><ul><li>\varepsilon \int_0^T u^2(t)\,\mathrm{d}t,</li></ul><p>$</p><p>where <span>$0 &lt; \varepsilon \ll 1$</span>. The penalty on <span>$u^2$</span> makes the Hamiltonian strictly concave in <span>$u$</span>, which regularizes the bang-bang structure and yields a smooth, numerically well-behaved control. The solution then converges to the original bang-bang optimal control as <span>$\varepsilon \to 0$</span>.</p><p>In the auxiliary formulation, this corresponds to replacing the cost-state dynamics by</p><p class="math-container">\[\dot c(t)
+plt_continuation</code></pre><img src="direct-3400fdea.svg" alt="Example block output"/><h2 id="Reducing-control-chattering"><a class="docs-heading-anchor" href="#Reducing-control-chattering">Reducing control chattering</a><a id="Reducing-control-chattering-1"></a><a class="docs-heading-anchor-permalink" href="#Reducing-control-chattering" title="Permalink"></a></h2><p>When the optimal control is bang-bang or involves a singular arc, direct methods inevitably produce rapid oscillations at the grid scale — the discretized control switches between its bounds to approximate an infinite switching frequency it cannot resolve.</p><p>A standard remedy is to add a small quadratic regularization term to the cost:</p><p>$</p><p>J<em>\varepsilon(x,y,u) = \frac{1}{2}\int</em>0^T \left(x^2(t)+y^2(t)\right)\mathrm{d}t</p><ul><li>\varepsilon \int_0^T u^2(t)\,\mathrm{d}t,</li></ul><p>$</p><p>where <span>$0 &lt; \varepsilon \ll 1$</span>. The penalty on <span>$u^2$</span> makes the Hamiltonian strictly concave in <span>$u$</span>, which regularizes the bang-bang structure and yields a smooth, numerically well-behaved control. The solution then converges to the original bang-bang optimal control as <span>$\varepsilon \to 0$</span>.</p><p>In the auxiliary formulation, this corresponds to replacing the cost-state dynamics by</p><p class="math-container">\[\dot c(t)
 =
 \frac{1}{2}\left(x^2(t)+y^2(t)\right)
 +
@@ -567,7 +567,7 @@ ocp_regularized = @def begin
     ṡ(t) == [
         0.5 * (x(t)^2 + y(t)^2) + ε * u(t)^2,
         u(t),
-        u(t) - y(t) / 2,
+        -u(t) - y(t) / 2,
     ]
 
     c(T) → min
@@ -605,38 +605,33 @@ Total number of inequality constraints...............:        0
         inequality constraints with only upper bounds:        0
 
 iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
-   0  3.4673934e+00 6.63e-01 5.89e-02   0.0 0.00e+00    -  0.00e+00 0.00e+00   0
-   1  4.4204845e-01 4.96e-01 1.75e+00  -6.0 1.20e+01    -  8.57e-02 2.53e-01f  1
-   2 -7.6630113e-01 1.54e-01 5.45e-01  -1.2 2.82e+00    -  6.90e-01 6.89e-01f  1
-   3  3.5271366e-01 7.24e-02 7.52e-02  -1.3 2.03e+00    -  9.98e-01 9.11e-01h  1
-   4  1.0691968e+00 1.34e-02 4.21e-04  -1.8 7.16e-01    -  1.00e+00 1.00e+00h  1
-   5  1.0846111e+00 1.92e-03 3.03e-04  -2.8 3.57e-01    -  9.94e-01 1.00e+00h  1
-   6  1.0808213e+00 4.36e-04 2.54e-03  -3.6 2.51e-01    -  8.94e-01 1.00e+00h  1
-   7  1.0794857e+00 9.07e-05 1.37e-03  -5.5 2.17e-01    -  8.74e-01 1.00e+00h  1
-   8  1.0793452e+00 1.43e-05 2.22e-16  -5.5 1.09e-01    -  1.00e+00 1.00e+00h  1
-   9  1.0793649e+00 5.38e-07 6.43e-07  -7.3 2.12e-02    -  9.99e-01 1.00e+00h  1
-iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
-  10  1.0793665e+00 5.85e-10 2.63e-09 -11.0 7.20e-04    -  1.00e+00 1.00e+00h  1
+   0  3.4673934e+00 3.33e-03 6.83e-02   0.0 0.00e+00    -  0.00e+00 0.00e+00   0
+   1  3.4772518e+00 2.19e-05 1.73e-02  -6.0 2.39e-02    -  9.64e-01 1.00e+00h  1
+   2  3.4716115e+00 1.14e-05 8.45e-04  -7.4 1.90e-02    -  9.84e-01 1.00e+00h  1
+   3  3.4700449e+00 1.26e-06 1.69e-05  -4.8 2.69e-02    -  9.94e-01 1.00e+00h  1
+   4  3.4698659e+00 5.60e-07 1.78e-15  -6.4 4.10e-02    -  1.00e+00 1.00e+00h  1
+   5  3.4698926e+00 1.64e-09 2.37e-08 -11.0 2.16e-03    -  9.97e-01 1.00e+00h  1
+   6  3.4698926e+00 1.83e-14 8.88e-16 -11.0 7.40e-06    -  1.00e+00 1.00e+00h  1
 
-Number of Iterations....: 10
+Number of Iterations....: 6
 
                                    (scaled)                 (unscaled)
-Objective...............:   1.0793665360486357e+00    1.0793665360486357e+00
-Dual infeasibility......:   2.6340936792879077e-09    2.6340936792879077e-09
-Constraint violation....:   5.8539217917541464e-10    5.8539217917541464e-10
-Variable bound violation:   9.6193890630758005e-09    9.6193890630758005e-09
-Complementarity.........:   2.0459552192134902e-09    2.0459552192134902e-09
-Overall NLP error.......:   2.6340936792879077e-09    2.6340936792879077e-09
+Objective...............:   3.4698926366565801e+00    3.4698926366565801e+00
+Dual infeasibility......:   8.8817841970012523e-16    8.8817841970012523e-16
+Constraint violation....:   1.8318679906315083e-14    1.8318679906315083e-14
+Variable bound violation:   9.9757995197791161e-09    9.9757995197791161e-09
+Complementarity.........:   1.0114735855164315e-11    1.0114735855164315e-11
+Overall NLP error.......:   1.0114735855164315e-11    1.0114735855164315e-11
 
 
-Number of objective function evaluations             = 11
-Number of objective gradient evaluations             = 11
-Number of equality constraint evaluations            = 11
+Number of objective function evaluations             = 7
+Number of objective gradient evaluations             = 7
+Number of equality constraint evaluations            = 7
 Number of inequality constraint evaluations          = 0
-Number of equality constraint Jacobian evaluations   = 11
+Number of equality constraint Jacobian evaluations   = 7
 Number of inequality constraint Jacobian evaluations = 0
-Number of Lagrangian Hessian evaluations             = 10
-Total seconds in IPOPT                               = 2.554
+Number of Lagrangian Hessian evaluations             = 6
+Total seconds in IPOPT                               = 2.771
 
 EXIT: Optimal Solution Found.</code></pre><pre><code class="language-julia hljs">plt_regularized = plot(
     sol_regularized;
@@ -644,7 +639,7 @@ EXIT: Optimal Solution Found.</code></pre><pre><code class="language-julia hljs"
     size = (800, 800),
 )
 
-plt_regularized</code></pre><img src="direct-3be62c57.svg" alt="Example block output"/><p>We now compare the regularized control with the controls obtained before.</p><pre><code class="language-julia hljs">u_regularized(t) = control(sol_regularized)(t)
+plt_regularized</code></pre><img src="direct-a3b3408e.svg" alt="Example block output"/><p>We now compare the regularized control with the controls obtained before.</p><pre><code class="language-julia hljs">u_regularized(t) = control(sol_regularized)(t)
 
 plt_regularized_control = plot(
     u_trapeze,
@@ -677,4 +672,4 @@ plot!(
     linewidth = 2.5,
 )
 
-plt_regularized_control</code></pre><img src="direct-60764318.svg" alt="Example block output"/><div class="admonition is-info" id="Note-14c05593f35561eb"><header class="admonition-header">Note<a class="admonition-anchor" href="#Note-14c05593f35561eb" title="Permalink"></a></header><div class="admonition-body"><p>The regularized problem is a perturbation of the original — its solution differs from the true bang-bang control, but converges to it as ε → 0. In practice, it is used either as a smoother when the bang-bang structure makes the direct solve unstable, or as a warm start for a subsequent solve at ε = 0.</p></div></div></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="index.html">« Introduction</a><a class="docs-footer-nextpage" href="indirect.html">Indirect method &amp; turnpike property »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.17.0 on <span class="colophon-date" title="Tuesday 23 June 2026 00:40">Tuesday 23 June 2026</span>. Using Julia version 1.12.6.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+plt_regularized_control</code></pre><img src="direct-ac6f30cb.svg" alt="Example block output"/><div class="admonition is-info" id="Note-14c05593f35561eb"><header class="admonition-header">Note<a class="admonition-anchor" href="#Note-14c05593f35561eb" title="Permalink"></a></header><div class="admonition-body"><p>The regularized problem is a perturbation of the original — its solution differs from the true bang-bang control, but converges to it as ε → 0. In practice, it is used either as a smoother when the bang-bang structure makes the direct solve unstable, or as a warm start for a subsequent solve at ε = 0.</p></div></div></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="index.html">« Introduction</a><a class="docs-footer-nextpage" href="indirect.html">Indirect method &amp; turnpike property »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.17.0 on <span class="colophon-date" title="Tuesday 23 June 2026 00:56">Tuesday 23 June 2026</span>. Using Julia version 1.12.6.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
