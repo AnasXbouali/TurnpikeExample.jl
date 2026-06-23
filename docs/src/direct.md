@@ -14,7 +14,7 @@ J(x,y,u)
 \dot x(t) = u(t),
 \\[0.5em]
 
-\displaystyle \dot y(t) = u(t) - \frac{y(t)}{2},
+\displaystyle \dot y(t) =- u(t) - \frac{y(t)}{2},
 \\[0.5em]
 
 -M \leq u(t) \leq M,
@@ -396,7 +396,7 @@ ocp_regularized = @def begin
     ṡ(t) == [
         0.5 * (x(t)^2 + y(t)^2) + ε * u(t)^2,
         u(t),
-        u(t) - y(t) / 2,
+        -u(t) - y(t) / 2,
     ]
 
     c(T) → min
