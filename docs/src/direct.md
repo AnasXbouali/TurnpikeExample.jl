@@ -104,15 +104,10 @@ F_1(s)
 \\
 1
 \\
-1
+-1
 \end{pmatrix}.
 ```
 
-Notice that the last component of `F_1` is `1` because the dynamics is
-
-```math
-\dot y(t) = u(t) - \frac{y(t)}{2}.
-```
 
 ## Problem data
 
